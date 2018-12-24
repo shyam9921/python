@@ -3,4 +3,4 @@ b=10
 c=input(int("entervalue"))
 d=a+b
 prin(d)
-
+h=a*b
