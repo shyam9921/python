@@ -1,0 +1,45 @@
+/etc/puppet/modules# vi nginx/manifests/init.pp
+class nginx{
+ exec{'update':
+  command => '/usr/bin/apt-get update'
+  }
+ package{'nginx':
+ ensure => installed,
+ }
+ service{'nginx':
+ ensure => running,
+ require => package['nginx'],
+ }
+}
+Node#facter | grep ipaddress
+Masrer:     
+      :/etc/puppet/modules# vi /etc/puppet/manifests/site.pp
+if $ipaddress == '172.31.29.246'
+ {
+   include nginx
+ }
+Node# puppet agent –t
+          #netstap -lntp
+
+
+
+
+
+****************************************
+class user{
+ user{'testuser':
+ ensure => present,
+ comment => 'user',
+ home => '/home/testuser',
+ managehome => true
+ }
+}
+
+
+
+class myfile{
+  file{"filecopy":
+   path => "/var/www/html/index.html",
+   soure => 'puppet:///modules/mymodule/index.html',
+   }
+}

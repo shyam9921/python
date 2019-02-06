@@ -1,0 +1,47 @@
+-----
+============DOCKER==========
+
+docker File:
+............
+
+FROM ubuntu
+MAINTAINER satish
+RUN apt-get update
+RUN echo "sathya tech"
+CMD ["echo","Hello World"]
+
+
+example1:
+.........
+
+#vi dockerfile
+ FROM ubuntu
+MAINTAINER satish
+RUN apt-get update && apt-get install -y wget
+RUN apt-get install -y apache2
+COPY index.html /var/www/html/index.html
+ENV NAME = JAVA_MACHINE
+VOLUME myvol
+EXPOSE 80
+CMD ["service","apache2","start"]
+
+#docker build -t myapache:latest .
+#docker -itd myapache /bin/bash
+#cd myvol
+
+EXAMPLE-2:
+..........
+#vi dockerfile
+FROM tomcat:8.0
+MAINTAINER satish
+RUN apt-get update && apt-get install -y curl
+RUN apt-get install -y git-core
+COPY index.html /usr/local/tomcat/webapps/ROOT/index.html
+ADD https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war /user/local/tomcat/webapps/sample.war
+USER root
+WORKDIR /user/local/tomcat/webapps
+EXPOSE 8080
+CMD ["catalina.sh","run"]
+
+#docker build -t mytom .
+#docker run -itd -p 8080:8080 mytom

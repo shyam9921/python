@@ -1,0 +1,55 @@
+
+                                         Linux Package Installation
+                                -----------------------------------------------
+    Ubuntu:
+       * apt
+       * apt-get
+
+    Centos
+       * yum
+       * rpm
+
+ to Update Packages:
+ ---------------------------
+       for Ubuntu:
+                #apt-get update
+       for Redhat:
+                #yum update
+
+ to Update java :
+ ------------------------
+       for Ubuntu:
+                #apt-get install openjdk-7-jdk -y
+       for Redhat:
+                #yum install java -y
+
+
+ to Update tomcat :
+ ------------------------
+       for Ubuntu:
+                #apt-get install tomcat7  -y
+       for Redhat:
+                #yum install tomcat -y
+
+ to Update mysql:
+ ------------------------
+       for Ubuntu:
+                #apt-get install mysql-server  -y
+       for Redhat:
+                #yum install mariadb-server -y
+
+
+     
+
+
+  
+ 
+
+
+
+
+
+
+
+
+
