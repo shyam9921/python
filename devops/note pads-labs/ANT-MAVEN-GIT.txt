@@ -1,0 +1,149 @@
+ANT MAVEN GIT(Ubuntu 14.04)
+---------------------------
+#sudo su -
+#apt-get update
+#cd /opt
+#wget http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz?AuthParam=1525755123_aa5a21c1485490675d52c20ddb106bd0
+#ls
+#mv jdk-8u171-linux-x64.tar.gz\?AuthParam\=1525755123_aa5a21c1485490675d52c20ddb106bd0 jdk-8u171-linux-x64.tar.gz
+#ls
+#wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.8/bin/apache-tomcat-9.0.8.tar.gz
+#ls
+#wget http://www-eu.apache.org/dist//ant/binaries/apache-ant-1.10.3-bin.tar.gz
+#ls
+#wget http://www-us.apache.org/dist/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz
+#ls
+#tar -xzf jdk-8u171-linux-x64.tar.gz
+#tar -xzf apache-tomcat-9.0.8.tar.gz
+#tar -xzf apache-ant-1.10.3-bin.tar.gz
+#tar -xzf apache-maven-3.5.3-bin.tar.gz
+#ls
+#cd
+#ls -a
+#vi .profile
+if [ "$BASH" ]; then
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
+fi
+
+mesg n
+
+export JAVA_HOME="/opt/jdk1.8.0_171"
+export PATH=$JAVA_HOME/bin:$PATH
+
+export CATALINA_HOME="/opt/apache-tomcat-9.0.8"
+export PATH=$CATALINA_HOME/bin:$PATH
+
+export ANT_HOME="/opt/apache-ant-1.10.3"
+export PATH=$ANT_HOME/bin:$PATH
+
+export M2_HOME="/opt/apache-maven-3.5.3"
+export PATH=$M2_HOME/bin:$PATH
+#source .profile
+#java -version
+#ant -version
+#mvn -version
+#echo $CATALINA_HOME
+#netstat -lntp
+#startup.sh
+#apt-get install git-core -y
+#git --version
+==============================================================================================
+#git clone https://github.com/sathyadevops/ant_proj.git
+#ls
+#cd ant_proj/
+#ls
+#ant
+#ls
+#cd dist
+#ls
+#cp AntExample.war /opt/apache-tomcat-9.0.8/webapps/
+#netstat -lntp
+go to browser "" 13.127.109.12:8080/AntExample "" 
+
+==============================================================================================
+IF WE WANT MODIFY THE CODE, AGAIN BUILD THE CODE
+------------------------------------------------
+#cd ant_proj/
+#cat ant_proj
+#vi WebContent/WEB-INF/jsp/userForm.jsp
+
+HERE WE MODIFY THE CODE AND SAVE IT
+
+#cd
+#cd ant_proj/
+#ant
+#cd dist
+#ls
+#cp AntExample.war /opt/apache-tomcat-9.0.8/webapps/
+#netstat -lntp
+go to browser "" 13.127.109.12:8080/AntExample "" 
+
+========================================================================================================================
+=======================================================================================================================
+MAVEN
+----------
+#git clone https://github.com/sathyadevops/mvnproj.git
+#ls
+#cd mvnproj
+#ls
+#mvn clean
+#mvn compile
+#mvn test
+#mvn package
+#mvn install
+#cd
+#ls -a
+#cd .m2
+#ls
+#cd repository
+#ls
+#cd SATHYA
+#ls
+#cd DEVOPS
+#ls
+#3.0
+#cp DEVOPS-3.0.war /opt/apache-tomcat-9.0.8/webapps/
+
+go to browser "" 13.127.109.12:8080/DEVOPS-3.0/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,421 @@
+                                       ///////////-----JENKINS-----/////////////
+
+Jenkins installation:
+--------------------
+Two types:
+
+1.apt-get
+2.Jenkins war file
+
+Jenkins installation using "apt":
+-------------------------------
+Install java
+
+# sudo add-apt-repository ppa:openjdk-r/ppa
+# sudo apt-get update
+# sudo apt-get install openkdk-8-jdk
+# wget -q -O -https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+# sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+# sudo apt-get update
+# sudo apt-get install jenkins
+
+Start Service:
+-------------
+
+# service jenkins start
+open Browser -> http://<public ip>:8080
+
+                 Jenkins installation using "war":
+                 --------------------------------
+
+1.Download java,ant,maven & tomcat server
+2.Download jenkins.war file
+3.deploy jenkins.war in tomcat/webapps
+4.start tomcat service
+5.browser --> http://localhost:8080/jenkins
+
+Distribution method:
+-------------------
+
+#apt-get update
+#cd /opt
+# wget http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.tar.gz?AuthParam=1533621183_f1b15f66e0c9f2f6f6737d57bdd8dd6b
+#ls 
+# mv jdk-8u181-linux-x64.tar.gz?AuthParam=1533621183_f1b15f66e0c9f2f6f6737d57bdd8dd6b jdk-8u181-linux-x64.tar.gz
+
+# wget http://www-eu.apache.org/dist//ant/binaries/apache-ant-1.10.5-bin.tar.gz
+# wget http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+# wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz
+# ls
+# tar -xzf apache-ant-1.10.5-bin.tar.gz
+# tar -xzf apache-maven-3.5.4-bin.tar.gz
+# tar -xzf apache-tomcat-9.0.10.tar.gz
+# tar -xzf jdk-8u181-linux-x64.tar.gz
+# ls
+# cd
+# ls -a
+# vi .profile(for Ubuntu) or vi .bashrc(for redhat/centos)
+
+add below paths:
+
+export JAVA_HOME="/opt/jdk1.8.0_181"
+export PATH=$JAVA_HOME/bin:$PATH
+
+export CATALINA_HOME="/opt/apache-tomcat-9.0.10"
+export PATH=$CATALINA_HOME/bin:$PATH
+
+export ANT_HOME="/opt/apache-ant-1.10.5"
+export PATH=$ANT_HOME/bin:$PATH
+
+export M2_HOME="/opt/apache-maven-3.5.4"
+export PATH=$M2_HOME/bin:$PATH
+
+# source .profile
+# apt-get install git-core -y
+# java -version
+# ant -version
+# mvn --version
+# echo $CATALINA_HOME
+# git --version
+# netstat -lntp
+# startup.sh---> to start tomcat in distribution method
+# netstat -lntp
+#cd
+# git clone https://github.com/sathyadevops/ant_proj.git
+# ls
+# cd ant_proj
+# ls
+# vi build.xml
+# ant
+# ls
+# cd dist/
+# ls
+# cp AntExample.war /opt/apache-tomcat-9.0.10/webapps/
+# netstat -lntp
+# shutdown.sh
+# startup.sh
+
+# git clone https://github.com/sathyadevops/mvnproj.git
+ # ls
+ # cd mvnproj
+ #  ls
+# vi pom.xml     ................>to change the version to (1.0 or 2.0 ...) > your wish
+# mvn compile
+# mvn test
+# mvn package
+# mvn install
+# cd
+# ls -a
+# cd .m2/
+# ls
+# cd repository/
+# ls
+# cd SATHYA/
+# ls
+# cd DEVOPS/
+# ls
+# cd 2.0/
+# ls
+# cp DEVOPS-2.0.war /opt/apache-tomcat-9.0.10/webapps/
+# netstat -lntp
+#shutdown.sh
+#startup.sh
+after this setup: (copy server public ip:tomcat-port/version)
+ex:..>(http://35.237.104.187:8080/DEVOPS-2.0/)
+............> show the result.
+
+===============================================================================================================
+* when you install jenkins using jenkins.war, you can get ".jenkins" directory in #ls -a
+  .jenkins is a hidden directory" .jenkins is a workspace for all builds and incase if we deletes the some files,we can recover those files from .jenkins workspace
+   because .jenkins is having all the jenkins files.
+
+===============================================================================================================
+
+to perform builds in jenkins:
+----------------------------
+goto browser-->jenkins-->New item-->give name like demo_project-->free style project-->Build-->Execute shell
+
+Eg1:
+       mkdir /tmp/mydir
+       mkdir /tmp/mydir1
+       echo "Hello from jenkins master" > /tmp/mydir/demo.txt
+       echo "file created"
+       cp /tmp/mydir/demo.txt /tmp/mydir1/demo.txt
+       echo "file copied"
+ Apply-->save-->Build Now
+
+     for verification result---> in superputty /tmp/mydir/demo.txt
+
+Eg2:
+
+       apt-get update
+       apt-get install -y apache2
+       service apache2 start
+       echo "<h1>Good day from jenkins</h1>" > /var/www/html/index.html
+       echo "package installed and file deployed"
+  Apply-->save-->Build Now
+
+then go to putty/superputty and check for the above two examples results in their respected paths provided in the above examples.
+ for verification result--> in superputty /var/www/html/index.html
+
+Git path Configuration:
+======================
+
+check for git installed or not in (in putty)server(if git is already installed no need to install again)
+ 
+# apt-get install git-core -y
+# git --version
+# which git-core--->it gives the path for git-core where it is installed
+  /usr/bin/git
+
+Goto jenkins site in browser-->manage jenkins-->Global tool configuration
+
+    Name:git
+    Path: /usr/bin/git --->save
+
+like same as Git path configuration in above, we need to provide java path, ant path, maven path.
+
+    name:java
+    JAVA_HOME:/opt/jdk1.8.0_181
+
+    name:ant
+    ANT_HOME:/opt/apache-ant-1.10.5
+
+    name:mvn
+    M2_HOME:/opt/apache-maven-3.5.4
+
+-------------------------------=========--------
+to build Ant_project in jenkins:
+-------------------------------
+Jenkins-->select new item(name it like ant_porj)-->select free style project
+then click on OK.
+Now in 'source code management'-->select 'Git'-->provide git clone path for ant_project from GitHub
+Now in 'Build'-->select 'invoke ant'-->provide ant version(1.10.5)
+                                                   target:in ant proj we no need to give target as ant
+    --->save and click build now----->click on build number(blue ball)--->check the build log progress(it shows build success/failure information) 
+
+jenkins build schedule/job scheduling(using crontab):
+----------------------------------------------------
+jenkins uses cron tab functionality to schedule builds
+ 
+  *--->minute in hour(0-59)
+  *--->hour in day(0-23)
+  *--->day in month(1-31)
+  *--->month in year(1-12)(jan,feb....)
+  *--->day in week(0-6)0=sun,1=mon...6=sat
+
+Eg:
+  0 5 * * * ------>for every day @5am
+ 30 6,18 * * *---->for every day @6:30am & 6:30pm 
+  0 10 * * 0------>for every sunday @10am
+  0 0 31 3 *------>for every march 31st 
+  0 */5 * * *----->for every 5hrs 
+  */10 * * * *---->for every 10 minutes
+  * * * * *------->for every minute
+
+we can schedule jobs in two ways:
+  1.Build periodically
+  2.poll scm
+
+ (1) In build periodically the jobs will execute for specific time interval.it won't check for source code changes in global repository
+     In jenkins-->select ant_proj(already it is in the projects list)-->selct configure on left side
+     -->in 'Build Triggers' section-->select 'Build periodically' option
+     then in Schedule box -->provide * * * * * as input(we can also give any input which is valid)
+     then click on save and select 'Build Now' on the left side panel in console.
+     for every minute it will triggers a new build for ant project because we have 
+     given the schedule input as * * * * *
+ 
+ (2) In Poll scm, the jenkins server checks the repository at regular intervals for changes.
+     after a commit occurs, the jenkins server detects the changes that have occured in the source code repository(global repo).
+     then jenkins will pull those changes and will start preparing a new build.
+     if source code changes are not happend it doesn't make any new builds.
+     
+     select any project (eg:ant project) and In 'Build Triggers'-->select 'poll scm'-->provide schedule as * * * * * and click save.
+     Now goto ant_proj in the server(superputty/putty) and do some changes to source code and do add,commit,push to global repo
+     Now goto browser--> in Jenkins console select 'ant-proj'-->select 'Build Now'
+     it creates a new build because we have changed the source code.  
+     poll scm identifies the code changes and creates a new build.
+     if code changes are not happened it won't create new build.
+
+comparatively poll scm is much recommended for scheduling the builds(because it won't make unnecessary builds)
+
+Jenkins plugin installation:
+---------------------------
+select 'manage jenkins'-->select 'manage plugins'-->select 'available' tab-->search 'green ball'plugin and select 'install without restart'
+then search for 'Build pipe line plugin' and select 'install without restart'
+then search for 'maven integration plugin' and select 'install without restart'
+
+like same way we can install the necessary plugins as per the requirement.
+                            
+Jenkins User management:
+-----------------------
+goto 'manage jenkins'-->select 'manage users'-->select 'create user' on left side-->provide details like below
+
+                  username:---
+                  password:---
+          confirm password:---
+                 full name:---
+                     email:---
+ then click on 'create user' button then it will show the user id and name
+
+---------------------------------===============---------------
+to build maven_project in jenkins:
+---------------------------------
+====Build for maven compile=====
+in jenkins-->select new item(mvn_compile as name)-->select 'free style project' or 'maven project'
+-->then provide 'Git' path in 'source code management' session-->then in 'Build' session-->select 'invoke top level maven target'
+-->then provide maven version:mvn 3.5.4
+                         goal:compile
+-->then in 'post-build Actions' session-->select 'Build other projects
+-->then in build other projects provide 
+                         projects to build as : mvn_package
+                     and select trigger only if build is stable button below    
+-->then save and build
+
+====Build for maven package=====
+in jenkins-->select new item(mvn_package as name)-->select 'free style project' or 'maven project'
+-->then provide 'Git' path in 'source code management' session-->then in 'Build' session-->select 'invoke top level maven target'
+-->then provide maven version:mvn 3.5.4
+                         goal:package
+-->then in 'post-build Actions' session-->select 'Build other projects
+-->then in build other projects provide 
+                         projects to build as : mvn_deploy
+                     and select trigger only if build is stable button below
+-->then save and build
+-->go to console output(click on build number) and find the path: /root/.jenkins/workspace/mvn_pack/target/myproj.war ,now copy this path and use this path in 
+   maven_deploy project as shown below. 
+
+====Build for maven deploy====
+in jenkins-->select new item(mvn_deploy as name)-->select 'free style project'
+-->then in 'Build' session-->select 'Execute shell'
+   Here write like below
+    cp /root/.jenkins/workspace/mvn_pack/target/myproj.war /opt/apache-tomcat-9.1.10/webapps/
+-->then save and build
+-->then save and build
+
+
+Now to start Build pipeline we have to follow the below process.
+
+In jenkins-->select (+) in all projects
+then provide view name: pipeline view
+then select pipeline view-->click ok
+then in pipeline Flow session-->under upstream/downstream config-->provide the initial job as:mvn_compile-->ok
+
+then it shows Build pipeline structure for maven project and starts builds one by one project automatically
+ 
+
+				Jenkins master-slave:
+				=====================
+
+In this case the jenkins master can distribute the work load for multiple slave machines.
+The jenkins master can communicate with nodes using ssh(secure shell)connection.
+
+create two servers(jenkins master and jenkins slave)
+In jenkins slave install jdk(java),ant,maven,tomcat,git(using distribution method)
+Create jenkins home directory in /opt
+(/opt/.jenkins)
+slave# mkdir /opt/.jenkins
+  ,, # apt-get update(for ubuntu)
+
+SSH Connection:(password Authentication)
+==============
+
+step-1  Change root passwd
+--------------------------
+node# passwd root
+enter new password root
+step-2  to configure ssh:
+------------------------
+node# vi /etc/ssh/sshd_config
+      permitRootLogin yes
+      passwordAuthentication yes
+    [press Esc and :wq]
+step-3  to restart ssh service:
+------------------------------
+for ubuntu/debian:
+  # service ssh restart
+for redhat/centos:
+  # systemctl restart sshd
+step-4  to connect to nodes:
+---------------------------
+node# hostname -i (to get host ip)
+node# hostname -f (to get full hostname)
+
+now in jenkins master
+
+mstr# ssh <slave hostname>
+
+SSH Keys:(PasswordLess Authentication)
+========
+step-1  generate key pair:
+-------------------------
+mstr# ls -a
+ ,, # cd
+ ,, # ssh-keygen
+ ,, # ls
+
+id_rsa------->private key
+id_rsa.pub--->public key
+
+step-2  to send public key to other server(slave):
+------------------------------------------
+mstr# ssh-copy-id <slave ip>
+
+step-3  to connect to servers:
+-----------------------------
+mstr# ssh <slave ip>
+
+now the connection established between jenkins master and jenkins slave.
+
+In browser goto jenkins-->manage jenkins-->click 'manage nodes'
+then in left side click on 'new node' and name it like slave-1 and select 'permanent Agent-->click 'ok'
+    provide below details
+              name: slave-1
+       description: to run java project(any name)
+   no.of executors: 10
+            labels: node-1
+             usage: use as much as possible
+     launch method: launch slave via SSH
+                    Host:<slave ip>
+             credentials:  here click on 'add'(jenkins)
+       
+         In Add Credentials tab, provide details like below
+            
+            Domain: Global credentials(unrestricted)
+             Kind: username with password
+            scope: Global (jenkins,nodes, items.....etc)
+         username: root
+         password: root
+     
+    Again click on Add(jenkins)
+          
+            Domain: Global credentials(unrestricted)
+             Kind: username with private key
+            scope: Global (jenkins,nodes, items.....etc)
+         username: root
+      private key: paste the private key of jenkins master
+
+                   in putty/superputty 
+                # cd .ssh
+                # ls
+                # cat id_rsa
+                  it gives the private key then copy it from
+             ---BEGIN RSA PRIVATE KEY---
+                       TO 
+             ---END RSA PRIVATE KEY---
+
+           click on Add
+       then provide credentials as: root
+                                    root/*****
+                 select any one of the above credentials
+
+      here click on Advanced button and provide port:22
+                                           java path:/opt/jdk1.8.181......
+       click on Save    
+     now click on slave-1 and click on 'launch Agent'
+      it shows the slave-1 is online/offline
+
+then goto jenkins--->all projects-->select new/any existing project-->click on 'configure' and select 'restrict where this project can run'
+   then provide label expression:slave-1 and click on save
+  then click on 'build now'
+

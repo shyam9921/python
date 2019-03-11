@@ -1,0 +1,74 @@
+
+
+==========================================puppet=======================================
+
+puppet manifests:(install webservers on ubuntu and centos)::..>
+............................................................
+
+#vi /etc/puppet/manifests/site.pp
+
+
+if $operatingsystem == 'Ubuntu'{
+ exec{'update':
+  command => "/usr/bin/apt-get update"
+ }
+ package{'apache2':
+  ensure => installed,
+  require => Exec['update'],
+ }
+ service{'apache2':
+  ensure => running,
+  require => package['apache2']
+ }
+}
+elsif $operatingsystem == 'CentOS'{
+ exec{"update":
+  command => "/bin/yum -y update"
+ }
+ package{'httpd':
+  ensure => installed,
+  require => Exec['update'],
+ }
+ service{'httpd':
+  ensure => running,
+  require => package['httpd'],
+ }
+}
+
+
+[esc]+:wq
+
+      ;
+      :......> goto node #puppet agent -t
+
+::::::::::::.....>goto browser ip& 80 search   .....> show apache server.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;
+
+
+Q) to install my sql server on ubuntu 
+#vi /etc/puppet/manifests/site.pp
+exec{'apt-update':
+ command => '/usr/bin/apt-get update'
+}
+package{'mysql-server':
+ require => Exec['apt-update'],
+ ensure => installed,
+}
+service{'mysql':
+ ensure => running,
+}
+
+
+:wq <..:
+.....................> goto node # puppet agent -t
+     and type #mysql
+
+   to enter mysql server...
+mysql>
+mysql>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+

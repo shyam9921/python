@@ -1,0 +1,69 @@
+              server-1
+         ..............................
+
+#sudo su -
+#apt-get update
+#apt-get install apache2 -y
+#ps -ef                       .............>to list processes
+
+#ps -ef | grep 'apache2'      .............>to list process
+#netstat -lntp
+#server apache2 stop          .............>to stop apache2 service
+#server apache2 start         .............>to start apache2 service
+#cd /var/www/html
+<h1> hello from web server-1 </h1>
+
+
+goto broser & public ip address
+
+
+                     server-2
+             ................................
+
+#sudo su -
+#yum update -y
+#yum install httpd -y       ............>to install webservers
+#ps -f | grep 'httpd'
+#netstat -lntp
+#systemctl start
+#vi /var/www/html  
+<h1> hello from webserver-2 </h1>
+
+
+goto browser and ip check
+
+
+              HA PROXY
+         ............................
+
+     #apt-get update
+     #apt-get install haproxy
+     #vi /etc/haproxy/haproxy.cfg
+
+      global
+  daemon
+  maxconn 256
+defaults
+  mode http
+  timeout connect 5000ms
+  timeout client 5000ms
+  timeout server 5000ms
+frontend http-in
+  bind *:80
+  balance roundrobin
+  default_backend servers
+backend servers
+  server web1 172.31.21.25:80 check maxconn 32
+  server web2 172.31.25.41:80 check maxconn 32
+
+     #vi /etc/default/haproxy
+     #service haproxy restart
+     #curl http://localhost
+     #while true; do curl http://localhost; sleep 1; done
+
+
+
+
+
+
+

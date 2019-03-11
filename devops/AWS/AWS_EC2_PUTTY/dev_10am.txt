@@ -1,0 +1,81 @@
+
+                                       Linux Server Creation
+                                     ---------------------------------
+    * VM Ware
+    * Virtual Box
+    * Vagrant
+    * Cloud (AWS, Google, Azure, Rackspace, IBM Cloud..)
+
+ Linux Distributions:
+----------------------------
+       Redhat , Ubuntu , Fedora, Gentoo , Mandark , CentOS,
+       Slackware,  Oracle Enterprise Linux ,  Debian , 
+       Amazon Linux , Open Linux ,  SuSE , ....
+
+
+                                   AWS EC2 Instance Creation
+                                  ---------------------------------------
+
+    * create an Account in AWS
+    * select EC2 (Elastic Compute Cloud) service
+    * select Launch Instance
+
+
+ Step 1: Choose an Amazon Machine Image (AMI)
+
+ Step 2: Choose an Instance Type  --> t2.micro
+
+ Step 3: Configure Instance Details 
+
+ Step 4: Add Storage   
+
+ Step 5: Add Tags  ---> key: Name ,  Value:  Demo
+
+ Step 6: Configure Security Group 
+
+ Step 7: Review Instance Launch 
+
+
+              Key Pair:
+             --------------
+                 * public Key (.pub)
+                 * private key (.pem)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+  

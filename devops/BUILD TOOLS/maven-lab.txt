@@ -1,0 +1,110 @@
+=======================================================MAVEN=======================================
+
+maven is a version control build tool, it is not override the old code, its main tain the versions.
+                                                      .......
+-------------------------local repository(.m2)........
+
+#apt-get update
+#cd /opt
+# wget http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.tar.gz?AuthParam=1533621183_f1b15f66e0c9f2f6f6737d57bdd8dd6b
+#ls 
+# mv jdk-8u181-linux-x64.tar.gz?AuthParam=1533621183_f1b15f66e0c9f2f6f6737d57bdd8dd6b jdk-8u181-linux-x64.tar.gz
+
+# wget http://www-eu.apache.org/dist//ant/binaries/apache-ant-1.10.5-bin.tar.gz
+# wget http://www-us.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+# wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz
+# ls
+# tar -xzf apache-ant-1.10.5-bin.tar.gz
+# tar -xzf apache-maven-3.5.4-bin.tar.gz
+# tar -xzf apache-tomcat-9.0.10.tar.gz
+# tar -xzf jdk-8u181-linux-x64.tar.gz
+# ls
+# cd
+# ls -a
+# vi .profile
+export JAVA_HOME="/opt/jdk1.8.0_181"
+export PATH=$JAVA_HOME/bin:$PATH
+
+export CATALINA_HOME="/opt/apache-tomcat-9.0.10"
+export PATH=$CATALINA_HOME/bin:$PATH
+
+export ANT_HOME="/opt/apache-ant-1.10.5"
+export PATH=$ANT_HOME/bin:$PATH
+
+export M2_HOME="/opt/apache-maven-3.5.4"
+export PATH=$M2_HOME/bin:$PATH
+
+# source .profile
+# apt-get install git-core -y
+# java -version
+# ant -version
+# mvn --version
+# echo $CATALINA_HOME
+# git --version
+# netstat -lntp
+# startup.sh
+# netstat -lntp
+#cd
+# git clone https://github.com/sathyadevops/mvnproj.git
+ # ls
+ # cd mvnproj
+ #  ls
+# vi pom.xml     ................>to change the version to (1.0 or 2.0 ...) > your wish
+# mvn compile
+# mvn test
+# mvn package
+# mvn install
+# cd
+# ls -a
+# cd .m2/
+# ls
+# cd repository/
+# ls
+# cd SATHYA/
+# ls
+# cd DEVOPS/
+# ls
+# cd 2.0/
+# ls
+# cp DEVOPS-2.0.war /opt/apache-tomcat-9.0.10/webapps/
+# netstat -lntp
+#shutdown.sh
+#startup.sh
+
+after this setup: (copy server public id:tomcat-port/version)
+ex:..>(http://35.237.104.187:8080/DEVOPS-2.0/)
+............> show the result.
+
+
+++++++you want change existing code or add additional code++++++++++
+
+#cd
+#ls
+#cd mvnproj
+#ls
+#cd src
+#ls
+#cd main
+#ls 
+cd webapp
+ls
+#vi index.jsp  ..............> (you want change code change it...)>>goto browser ex:html code for table
+#cd 
+#ls
+#cd mvnproj
+#ls
+#vi pom.xml ..................>(you want change version you can chaange like=2.0 or 1.0 or 4.0...)
+#mvn compile
+# mvn test
+# mvn package
+# mvn install
+#cd .m2/repository/SATHYA/DEVOPS/2.0/
+#ls
+# cp DEVOPS-2.0.war /opt/apache-tomcat-9.0.10/webapps/
+#netstat -lntp
+#startup.sh
+
+{{...> goto browser:ip:tomcat port:version)
+ ex:..(http://35.237.104.187:8080/DEVOPS-4.0/)}}
+sho result:
+===============================================================================close (.m2)========

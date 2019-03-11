@@ -1,0 +1,371 @@
+=========Ansible=======
+[installation on ubuntu14.04]
+master#
+
+$ sudo apt-get update
+$ sudo apt-get install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
+
+                                         ++++++++++++++PLAYBOOKS+++++++++++++
+
+.....file copy from master to node......
+
+master#
+#mkdir files
+#touch files/file{1..5}.txt
+#ls
+#mkdir playbooks
+#vi playbooks/pb1.yml
+
+
+---
+ - hosts: all
+   remote_user: root
+   tasks:
+    - name: to copy file
+      copy:
+       src: /root/files/file1.txt
+       dest: /tmp/file1.txt
+    - name: to display msg
+      debug:
+       msg: file copied
+
+
+#ansible-playbook playbooks/pb1.yml --syntax -check
+#ansible-playbook playbooks/pb1.yml
+#cat ansible-playbook playbooks/pb1.yml
+
+--------------------------------------------------------------------------------------------------------------------------
+............apache2 service install from mstr to ubuntu node...........
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: ubnt
+   remote_user: root
+   gather_facts: False
+   tasks:
+    - name: to update packages
+      raw: apt-get update
+
+    - name: to install apache2
+      apt: name=apache2 state=latest
+
+    - name: to deploy file
+      copy:
+       src: /root/files/index.html
+       dest: /var/www/html/index.html
+
+    - name: to start service
+      service: name=apache2 state=started
+
+
+#ansible-playbook playbooks/pb1.yml --syntax -check
+#ansible-playbook playbooks/pb1.yml
+
+----------------------------------------------------------------------------------------------------------------------------
+
+........httpd(apache2) install from mstr to centos node.......
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: cent
+   remote_user: root
+   gather_facts: False
+   tasks:
+    - name: to update packages
+      raw: yum -y update
+
+    - name: to install httpd
+      yum: name=httpd state=latest
+
+    - name: to deploy file
+      copy:
+       src: /root/files/index.html
+       dest: /var/www/html/index.html
+
+    - name: to start service
+      service: name=httpd state=started
+
+
+
+#ansible-playbook playbooks/pb1.yml --syntax -check
+#ansible-playbook playbooks/pb1.yml
+-----------------------------------------------------------------------------------------------------
+
+...........httpd aND TOMCAT INSTALL IN CENTOS  by using HANDLERS..........
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: cent
+   become: true
+   gather_facts: False
+   tasks:
+    - name: to install httpd
+      yum: name=httpd state=latest
+      notify:
+       - start web
+    - name: to install tomcat
+      yum: name=tomcat state=latest
+      notify:
+       - start app
+   handlers:
+    - name: start web
+      service: name=httpd state=started
+    - name: start app
+      service: name=tomcat state=started
+
+
+#ansible-playbook playbooks/pb1.yml --syntax -check
+#ansible-playbook playbooks/pb1.yml
+ 
+
+
+----------by using HANDLERS mysql & mariadb servers installation-----------
+
+
+#vi playbooks/pb1.yml 
+---
+ - hosts: all
+   become: true
+   gather_facts: true
+   tasks:
+    - name: to update
+      raw: apt-get update
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: to install mysql
+      apt: name=mysql-server state=present
+      when: ansible_pkg_mgr == 'apt'
+      notify:
+       - start mysql
+
+    - name: to update
+      raw: yum -y update
+      when: ansible_distribution == 'CentOS'
+
+    - name: to install mariadb
+      yum: name=mariadb-server state=present
+      when: ansible_pkg_mgr == 'yum'
+      notify:
+       - start mariadb
+   handlers:
+    - name: start mysql
+      service: name=mysql state=started
+
+    - name: start mariadb
+      service: name=mariadb state=started
+
+#ansible-playbook playbooks/pb1.yml --syntax -check
+#ansible-playbook playbooks/pb1.yml
+
+
+---------------------------------------------------Ansible Variables-----------------------
+                                                  -------------------
+
+STATIC VARIABLES(vars):
+.................
+
+-------by using variables to install "apt & curl" packages
+
+#vi playbooks/pb1.yml
+---
+ - hosts: all
+   become: true
+   vars:
+    - pack1: wget
+    - pack2: curl
+   tasks:
+    - name: to install{{pack1}}
+      apt: name={{pack1}} state=latest
+      when: ansible_distribution=='Ubuntu'
+    - name: to install{{pack2}}
+      yum: name={{pack2}} state=latest
+      when: ansible_distribution=='CentOS'
+
+
+#ansible-playbook playbooks/pb1.yml --syntax -check
+#ansible-playbook playbooks/pb1.yml
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+
+Vars_prompt(Dynamic variables:
+..............................
+
+----------------install packages by using vars_prompt:--
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: all
+   become: true
+   vars_prompt:
+    - name: pack1
+      prompt: enter package-1
+      private: no
+    - name: pack2
+      prompt: enter package-2
+      private: no
+   tasks:
+    - name: to install{{pack1}}
+      apt: name={{pack1}} state=latest
+      when: ansible_distribution=='Ubuntu'
+    - name: to install{{pack2}}
+      yum: name={{pack2}} state=latest
+      when: ansible_distribution=='CentOS'
+#ansible-playbook playbooks/pb1.yml
+.......................................
+
+(pack1: git
+ pack2: git & goto nodes check git versions..
+-------------------------------------------------------------------------------------------------------
+
+
+======================ansible LOOPS===================
+                      ..............
+to copy files by using loops:
+.............................
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: all
+   become: true
+   gather_facts: false
+   tasks:
+    - name: to copy files
+      copy:
+       src: /root/files/{{item}}
+       dest: /opt/{{item}}
+      with_items:
+       - file5
+       - file6
+       - file7
+       - file8
+
+#ansible-playbook playbooks/pb1.yml
+
+--------------------------------------
+ 
+ansible-playbook to install different packages like, java,httpd,tomcat,tree for "centos" node using an ansible loops:
+                                                                                                      ...............
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: cent
+   become: true
+   gather_facts: false
+   tasks:
+    - name: to update repo
+      raw: yum -y update
+
+    - name: to install packages
+      yum: name={{item}} state=present
+      with_items:
+       - java
+       - httpd
+       - tree
+       - tomcat
+
+
+#ansible-playbook playbooks/pb1.yml
+----------------------------------------------------------------------------------------------
+
+================================================ansible Templates==================================================
+                                                ..................
+
+
+ansible templates:(centos)
+..................
+
+to install httpd service by using variables 
+
+
+#mkdir playbooks/templates
+
+#vi playbooks/templates/demo.j2
+
+<h1>hello{{var1}}</h1>
+<h1>good day{{var2}}</h1>
+
+#vi playbooks/pb1.yml
+
+---
+ - hosts: cent
+   become: true
+   gather_facts: false
+   vars:
+    - var1: 'sathya tech'
+    - var2: 'devops'
+   tasks:
+    - name: to install httpd
+      yum: name=httpd state=latest
+
+    - name: to deploy a file
+      template:
+       src: /root/playbooks/templates/demo.j2
+       dest: /var/www/html/index.html
+
+    - name: start web
+      service: name=httpd state=started
+
+#ansible-playbook playbooks/pb1.yml
+
+---------------------------------------------------------------------------------------:
+
+Q) to creat ansible-playbook, to install tomcat server and define newport for tomcat using an ansible templates?
+
+
+
+
+#mkdir playbooks
+#mkdir templates
+#apt-get install tomcat7 -y
+#cp /etc/tomcat/server.xml ~/playbook/templates
+#ls
+#mv server.xml demo.j2
+#vi demo.j2
+<connector port={{newport}}
+                  .......
+                    : 
+                     ...........>change
+
+#vi playbooks/pb1.yml
+
+
+---
+ - hosts: cent
+   remote_user: root
+   gather_facts: false
+   vars_prompt:
+    - name: newport
+      prompt: enter tomcat port
+      private: no
+
+   tasks:
+    - name: to update repo
+      raw: yum -y update
+
+    - name: to install java
+      raw: yum  install -y java
+
+    - name: to install tomcat
+      yum: name=tomcat state=present
+
+    - name: to change poprt
+      template:
+       src: /root/playbooks/templates/demo.j2
+       dest: /etc/tomcat/server.xml
+
+    - name: to restart srvice
+      service: name=tomcat state=started
+#ansible-playbook playbooks/pb1.yml --syntax-check
+#ansible-playbook playbooks/pb1.yml
+.........................................................................................................................................................
+.........................................................................................................................................................

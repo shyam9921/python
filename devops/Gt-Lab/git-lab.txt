@@ -1,0 +1,45 @@
+=========git-lab============
+
+
+1. Install and configure the necessary dependencies
+...................................................:
+
+#sudo apt-get update
+#sudo apt-get install -y curl openssh-server ca-certificates
+
+
+2. Add the GitLab package repository and install the package
+.............................................................:
+
+
+#sudo apt-get install -y postfix
+
+#curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+
+#sudo EXTERNAL_URL="http://gitlab.example.com" apt-get install gitlab-ee
+
+# gitlab-ctl reconfigure
+
+
+
+ #git config --global user.name "Administrator"
+ #git config --global user.email admin@example.com
+ #git clone http://35.231.104.60/root/gitlab.git
+
+in git-lab creat account:
+username:root
+password:ssc11789
+
+
+to install git:
+
+ #apt-get update
+ #apt-get install git-core
+
+
+to creat file and push to git-lab
+
+  #vi index.html
+  #git add index.html
+  #git commit -m newcode
+  #git push origin master

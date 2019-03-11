@@ -1,0 +1,96 @@
+
+                                        SSH  connection
+                                        -----------------------
+Step-1 :  change root password :
+----------------------------------------------
+               node# sudo  su  -   (to switch to root user)
+               node# passwd root
+        Enter new Password :  root
+
+
+Step-2 :  to configure ssh : 
+-------------------------------------
+               node# vi  /etc/ssh/sshd_config
+            PermitRootLogin  yes
+            PasswordAuthentication  yes
+                 [press 'Esc']
+                 :wq  --> write and quit
+
+Step-3 :  to restart ssh service:
+-------------------------------------------
+              for Ubuntu / Debian :
+                   #service ssh restart
+              for Redhat6 / CentOS6:
+                    #service  sshd  restart
+              for Redhat7 / CentOS7:
+                    #systemctl  restart sshd
+
+
+
+Step-4 :  to connect to nodes
+-------------------------------------------
+                  node#  hostname  -i      (to get IP Address)
+                  node#  hostname  -f      (to get FQDN / Server Name)
+                 Syntax : 
+                       # ssh  <Node IP>
+                   Ex:
+               mstr# ssh  10.142.0.8
+
+
+
+
+
+                     SSH  Keys (Password less Authentication)
+                    ------------------------------------------------------------
+
+  step-1 : Generate Key Pair 
+ --------------------------------------
+                           mstr# ls -a          (to list hidden files)
+                           mstr# cd  .ssh    
+                           mstr# ssh-keygen
+                           mstr# ls 
+                        id_rsa.pub   ---> public key
+                        id_rsa          ---> private key
+
+ step-2 : to send a Public to other server (Slave / Agent)
+ -------------------------------------------------------------------
+              Syntax:
+                           mstr# ssh-copy-id   <Node-1 IP>
+                    Ex:
+                           mstr# ssh-copy-id   192.168.35.26
+
+  step-3 : to connect to servers :
+ -------------------------------------------
+                Syntax : 
+                         #ssh  <Node IP>
+                   Ex:
+                 mstr# ssh   192.168.35.26
+
+
+
+
+
+                                         Secure Copy (scp)
+                                      ------------------------------
+Syntax:
+     #scp   [-i <Private Key>]  <file> <user>@<ip addr>:<path>
+
+Ex:
+    #scp   -i ~/.ssh/id_rsa  demo.txt    root@10.142.0.5:/tmp/
+
+    #scp  demo.txt   10.142.0.5:/tmp/
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 

@@ -1,0 +1,31 @@
+------------puppet-------
+ puppet manifests:
+ -----------------
+to creat file :
+
+file{"/tmp/myfile":
+ensure => "present",
+owner => "root",
+group => "root",
+mode => "644",
+content => "This is my first manifest",
+}
+======goto node#puppet agent -t===========
++++++++++++++++++++++++++++++++++++++++++++++
+
+to create directory:
+...................
+
+file{"/tmp/myfile":
+ensure => "present",
+owner => "root",
+group => "root",
+mode => "644",
+content => "This is my first directoryt",
+}
+file{"mydir":
+ path => '/tmp/mydir',
+ ensure => directory,
+}
+=========goto node#puppet agent -t===========
+
